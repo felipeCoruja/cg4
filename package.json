@@ -1,0 +1,17 @@
+{
+  "name": "cg4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "three": "^0.132.2",
+    "three.js": "^0.77.1",
+    "tree.js": "^1.4.0"
+  }
+}

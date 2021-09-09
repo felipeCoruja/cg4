@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta = charset="utf-8"> 
+        <title>Hellow word CG</title>
+        <style>
+            body {margin:0;}
+        </style>
+        
+    </head>
+    <body>
+        
+        <script type="module">
+           
+
+            import * as THREE from 'https://threejs.org/build/three.module.js';
+            import { TrackballControls } from 'https://threejs.org/examples/jsm/controls/TrackballControls.js';
+           
+
+            
+            const scene = new THREE.Scene();
+            let screen_width = window.innerWidth;
+            let screen_height = window.innerHeight;
+            let aspect_ratio = screen_width / screen_height;
+            const camera = new THREE.PerspectiveCamera(45,aspect_ratio,0.1, 1000);
+
+            const renderer = new THREE.WebGLRenderer({antialias:true});
+            renderer.setSize(screen_width,screen_height);
+            document.body.appendChild(renderer.domElement);
+
+          
+            const controls = new TrackballControls(camera, renderer.domElement);
+
+            function createControls(camera){
+                camera.position.set(1,0.5,10);
+
+                controls.rotateSpeed = 1.0;
+                controls.zoomSpeed = 1.2;
+                controls.panSpeed = 0.8;
+
+                controls.keys = ['KeyA', 'KeyS' , 'KeyD'];
+            }
+
+            
+            const geometry = new THREE.PlaneGeometry(100, 100, 50, 50);
+            const material = new THREE.MeshBasicMaterial({ color: '#00ffff', wireframe: true, side: THREE.DoubleSide });
+            const plano = new THREE.Mesh(geometry,material);
+            scene.add(plano);
+           
+            camera.position.set(15, 10, 15);
+            plano.position.set(0, -2, 0);
+            plano.rotation.set(Math.PI / 2, 0, 0);
+
+
+            const ConeGeometry = new THREE.ConeGeometry(1,4,5);
+            const materialLambert = new THREE.MeshLambertMaterial({color: 0xffffff});
+            const cone = new THREE.Mesh(ConeGeometry,materialLambert);
+            scene.add(cone);
+
+            
+            const cylinderGeometry = new THREE.CylinderGeometry();
+            const materialLambert2 = new THREE.MeshLambertMaterial({color: 0xffffff});
+            const cylinder = new THREE.Mesh(cylinderGeometry,materialLambert2);
+            scene.add(cylinder);
+
+            cylinder.position.set(0,2,0);
+
+
+            //criando luz ambiente
+            const luzAmbiente = new THREE.AmbientLight('#fff', 0.2);
+
+            const directionalLight = new THREE.DirectionalLight('#ff0', 0.5);
+            const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
+            directionalLight.position.set(10, 10, 0);
+
+            scene.add(directionalLight);
+            scene.add(directionalLightHelper);
+
+
+
+            const lampLight = new THREE.PointLight('#f0f', 0.5, 0);
+            lampLight.position.set(10, 10, 10);
+
+            scene.add(lampLight);
+            scene.add(luzAmbiente);
+
+            //criando as luzes 
+
+            const luz1 = new THREE.SpotLight('#f00');
+            const spotLightHelper1 = new THREE.SpotLightHelper(luz1);
+            luz1.position.set(0, 18, 0);
+            luz1.castShadow = true;
+            let spotLightMovement1 = true;
+            scene.add(luz1);
+            scene.add(spotLightHelper1);
+
+            
+            const luz2 = new THREE.SpotLight('#00f');
+            const spotLightHelper2 = new THREE.SpotLightHelper(luz2);
+            luz2.position.set(0, 18, 0);
+            luz2.castShadow = true;
+            let spotLightMovement2 = true;
+            scene.add(luz2);
+            scene.add(spotLightHelper2);
+
+
+            const luz3 = new THREE.SpotLight('#0f0');
+            const spotLightHelper3 = new THREE.SpotLightHelper(luz3);
+            luz3.position.set(0, 18, 0);
+            luz3.castShadow = true;
+            let spotLightMovement3 = true;
+            scene.add(luz3);
+            scene.add(spotLightHelper3);
+
+           
+            function animate() {
+        
+                luz1.position.x += spotLightMovement1 ? 1 : -1;
+                if (luz1.position.x > 20) spotLightMovement1 = false;
+                if (luz1.position.x < -20) spotLightMovement1 = true;
+
+                luz2.position.y += spotLightMovement2 ? 1 : -1;
+                if (luz2.position.y > 20) spotLightMovement2 = false;
+                if (luz2.position.y < -20) spotLightMovement2 = true;
+
+                luz3.position.z += spotLightMovement3 ? 1 : -1;
+                if (luz3.position.z > 20) spotLightMovement3 = false;
+                if (luz3.position.z < -20) spotLightMovement3 = true;
+
+
+                controls.update();
+                spotLightHelper1.update();
+                spotLightHelper2.update();
+                spotLightHelper3.update();
+               
+                renderer.render(scene, camera);
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+
+        </script>
+    </body>
+</html>
